@@ -1,0 +1,17 @@
+{
+  "name": "storefront",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "index.js",
+  "devDependencies": {
+    "@cloudcommerce/storefront": "file:../../../../packages/storefront",
+    "link": "^1.5.1"
+  }
+}
