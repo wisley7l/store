@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "echo '>> Run build from repository root'",
+    "dev": "astro dev",
+    "build": "astro build",
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
@@ -15,7 +16,9 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@cloudcommerce/firebase": "^0.0.63",
-    "@cloudcommerce/ssr": "^0.0.63"
+    "@cloudcommerce/firebase": "file:../../../packages/firebase",
+    "@cloudcommerce/ssr": "file:../../../packages/ssr",
+    "@cloudcommerce/storefront": "file:../../../packages/storefront",
+    "link": "^1.5.1"
   }
 }

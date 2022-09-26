@@ -1,0 +1,23 @@
+---
+import ViewHome from '@cloudcommerce/storefront/src/lib/views/index.astro';
+import loadPageContext, { PageContext } from '@cloudcommerce/storefront/src/lib/ssr-context';
+
+let pageContext: PageContext;
+let loadError: any;
+try {
+  pageContext = await loadPageContext(Astro);
+  /* Faster SSR without store categories (default) prefetch:
+  pageContext = await loadPageContext(Astro, {
+    apiPrefetchEndpoints: [],
+  });
+  */
+} catch (err) {
+  if (err.astroResponse) {
+    return err.astroResponse;
+  }
+  loadError = err;
+}
+---
+
+{pageContext && <ViewHome pageContext={pageContext} />}
+{loadError && <Fragment set:html={loadError.responseHTML} />}
