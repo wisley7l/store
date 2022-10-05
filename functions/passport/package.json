@@ -15,8 +15,7 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@cloudcommerce/firebase": "file:../../../packages/firebase",
-    "@cloudcommerce/passport": "file:../../../packages/passport",
-    "link": "^1.5.1"
+    "@cloudcommerce/firebase": "^0.0.109",
+    "@cloudcommerce/passport": "^0.0.109"
   }
 }

@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "cd storefront && npx astro dev",
-    "build": "cd storefront && npm i && npx astro build",
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:static": "BUILD_OUTPUT=static astro build",
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
@@ -16,9 +17,11 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@cloudcommerce/firebase": "file:../../../packages/firebase",
-    "@cloudcommerce/ssr": "file:../../../packages/ssr",
-    "@cloudcommerce/storefront": "file:../../../packages/storefront",
-    "link": "^1.5.1"
+    "@cloudcommerce/api": "^0.0.109",
+    "@cloudcommerce/firebase": "^0.0.109",
+    "@cloudcommerce/ssr": "^0.0.109"
+  },
+  "devDependencies": {
+    "@cloudcommerce/storefront": "^0.0.109"
   }
 }

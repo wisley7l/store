@@ -15,7 +15,6 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@cloudcommerce/firebase": "file:../../../packages/firebase",
-    "link": "^1.5.1"
+    "@cloudcommerce/firebase": "^0.0.109"
   }
 }
