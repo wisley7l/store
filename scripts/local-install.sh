@@ -16,7 +16,7 @@ done
 cd ssr
 npm i link ../../../packages/api/
 npm i -D link ../../../packages/storefront/
-cd ../../
+cd ../../../
 pnpm i
 npm run build
 
