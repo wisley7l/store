@@ -1,6 +1,8 @@
 #!/bin/bash
 
 echo '> Install functions dependencies:'
+rm -r node_modules
+rm package-lock.json
 npm i link ../packages/cli/
 cd functions
 for d in */ ; do
