@@ -1,0 +1,32 @@
+{
+  "name": "ssr",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "bash scripts/build.sh",
+    "build:static": "BUILD_OUTPUT=static astro build",
+    "serve": "firebase emulators:start --only functions:ssr,hosting",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "@cloudcommerce/api": "^0.41.4",
+    "@cloudcommerce/firebase": "^0.41.4",
+    "@cloudcommerce/ssr": "^0.41.4",
+    "@headlessui/vue": "^1.7.16",
+    "micromark": "^4.0.0"
+  },
+  "devDependencies": {
+    "@cloudcommerce/i18n": "^0.41.4",
+    "@cloudcommerce/storefront": "^0.41.4",
+    "@cloudcommerce/types": "^0.41.4",
+    "photoswipe": "^5.4.3"
+  }
+}
