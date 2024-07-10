@@ -1,16 +1,16 @@
 <template>
-  <article class="from-secondary-700 to-secondary-950 flex
-    min-h-screen w-full flex-col justify-center bg-gradient-to-br">
+  <article class="flex min-h-screen w-full flex-col
+    justify-center bg-gradient-to-br from-secondary-700 to-secondary-950">
     <div class="mx-auto p-4">
-      <section class="ui-section text-center">
+      <section class="text-center ui-section">
         <a href="/" class="text-base-200 hover:text-white">
-          <i class="i-arrow-right mr-1 rotate-180"></i>
+          <i class="mr-1 rotate-180 i-arrow-right"></i>
           {{ $t.i19goToStore }}
         </a>
       </section>
       <section class="overflow-hidden rounded-md
         shadow-md ring-4 ring-black/10">
-        <LoginForm v-bind="{ loginLinkActionUrl }">
+        <LoginForm>
           <template #head>
             <div class="mb-5 text-center">
               <a href="/" class="inline-block">
@@ -20,14 +20,14 @@
           </template>
         </LoginForm>
       </section>
-      <nav v-if="$settings.serviceLinks?.length" class="ui-section px-0">
+      <nav v-if="$settings.serviceLinks?.length" class="px-0 ui-section">
         <ul class="mx-auto flex max-w-sm flex-wrap items-center
           justify-evenly gap-4 px-3">
           <li
             v-for="({ title, href }, i) in $settings.serviceLinks"
             :key="`s-${i}`"
           >
-            <ALink :href="href" class="ui-link text-base-200 hover:text-white">
+            <ALink :href="href" class="text-base-200 ui-link hover:text-white">
               {{ title }}
             </ALink>
           </li>
@@ -41,19 +41,18 @@
 import { isLogged } from '@@sf/state/customer-session';
 import LoginForm from '~/components/LoginForm.vue';
 
-let loginLinkActionUrl: string | null = null;
 if (!import.meta.env.SSR) {
   const { location } = window;
-  const returnUrl = new URLSearchParams(location.search).get('return_url');
+  let returnUrl = new URLSearchParams(location.search).get('return_url');
   if (!returnUrl) {
     const url = new URL(location.toString());
     url.pathname = '/app/';
-    url.hash = `#${location.pathname.replace('/app/', '/')}`;
-    loginLinkActionUrl = url.toString();
+    url.hash = location.hash || '#/account';
+    returnUrl = url.toString();
   }
   watch(isLogged, () => {
     if (isLogged.value) {
-      location.href = (returnUrl || loginLinkActionUrl) as string;
+      location.href = returnUrl;
     }
   }, {
     immediate: true,

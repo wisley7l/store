@@ -2,13 +2,13 @@
   "postCreateCommand": "npm i && npm i --prefix=functions/ssr",
   "waitFor": "postCreateCommand",
   "portsAttributes": {
-    "3000": {
+    "4321": {
       "label": "Application",
       "onAutoForward": "openPreview"
     }
   },
   "forwardPorts": [
-    3000
+    4321
   ],
   "postAttachCommand": {
     "Server": "npm run dev"
@@ -16,7 +16,8 @@
   "customizations": {
     "codespaces": {
       "openFiles": [
-        "functions/ssr/src/main/Home.astro"
+        "functions/ssr/src/components/ShopHeader.vue",
+        "functions/ssr/src/components/ProductCard.vue"
       ]
     },
     "vscode": {
@@ -24,7 +25,12 @@
         "astro-build.astro-vscode",
         "vue.volar",
         "bradlc.vscode-tailwindcss"
-      ]
+      ],
+      "settings": {
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 5000,
+        "files.autoSaveWhenNoErrors": true
+      }
     }
   }
 }

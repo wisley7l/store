@@ -2,14 +2,17 @@
 import { filterMainCategories } from '@@sf/composables/use-shop-header';
 import useSharedData from '@@sf/composables/use-shared-data';
 import Picture from '@@sf/components/Picture.astro';
-import {
+import ShopFooter, {
   type Props as ShopFooterProps,
-  default as ShopFooter,
 } from '~/components/ShopFooter.vue';
 
+export interface Props {
+  logoHeading?: string;
+}
+
 const { routeContext } = Astro.locals;
-const { settings, getContent, isHomepage } = routeContext;
-const LogoHeading = isHomepage ? 'h2' : 'h3';
+const { settings, getContent } = routeContext;
+const LogoHeading = Astro.props.logoHeading || 'h4';
 const layoutContent = await getContent('layout');
 const {
   footer: {
@@ -42,6 +45,9 @@ if (pagesList?.isActive) {
       if (title) {
         pageLinks.push({ title, href: `/p/${pageSlugs[i]}` });
       }
+    }
+    if ((await getContent('blog/')).length) {
+      pageLinks.push({ title: 'Blog', href: '/blog/1/' });
     }
   }
 }

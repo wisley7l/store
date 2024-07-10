@@ -4,29 +4,31 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "dev-with-cms": "npx concurrently \"npm:dev\" \"GIT_REPO_DIRECTORY=../.. npx decap-server\"",
     "build": "bash scripts/build.sh",
     "build:static": "BUILD_OUTPUT=static astro build",
     "serve": "firebase emulators:start --only functions:ssr,hosting",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "lint:fix": "eslint -c ./.staged.eslintrc.cjs src/**/*.{ts,vue,astro} --fix"
   },
   "engines": {
     "node": "18"
   },
   "main": "index.js",
   "dependencies": {
-    "@cloudcommerce/api": "^0.41.4",
-    "@cloudcommerce/firebase": "^0.41.4",
-    "@cloudcommerce/ssr": "^0.41.4",
-    "@headlessui/vue": "^1.7.16",
+    "@cloudcommerce/api": "^2.21.6",
+    "@cloudcommerce/firebase": "^2.21.6",
+    "@cloudcommerce/ssr": "^2.21.6",
+    "@headlessui/vue": "^1.7.22",
     "micromark": "^4.0.0"
   },
   "devDependencies": {
-    "@cloudcommerce/i18n": "^0.41.4",
-    "@cloudcommerce/storefront": "^0.41.4",
-    "@cloudcommerce/types": "^0.41.4",
-    "photoswipe": "^5.4.3"
+    "@cloudcommerce/i18n": "^2.21.6",
+    "@cloudcommerce/storefront": "^2.21.6",
+    "@cloudcommerce/types": "^2.21.6",
+    "photoswipe": "^5.4.4"
   }
 }

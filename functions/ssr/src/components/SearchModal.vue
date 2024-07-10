@@ -26,7 +26,7 @@
       <ProductShelf
         v-if="!isFetching && products.length"
         :products="products"
-        class="m-0 max-w-none bg-white px-4
+        class="!overflow-visible bg-white px-4 [&>*]:m-0 [&>*]:px-0
         lg:[&_[data-carousel-control=next]]:!-right-10
         lg:[&_[data-carousel-control=previous]]:!-left-10"
         :class="linkHits.length ? 'lg:rounded-b' : 'lg:rounded'"
@@ -36,21 +36,25 @@
       <section
         v-if="!isFetching
           && (searchHistory.length || productCount > products.length)"
-        class="bg-base-100/80 grid grid-cols-1 items-center
-        gap-4 p-4 backdrop-blur-md
+        class="grid grid-cols-1 items-center gap-4
+        bg-base-100/80 p-4 backdrop-blur-md
         md:grid-cols-2 md:rounded-b lg:mt-5 lg:grid-cols-3 lg:rounded"
       >
         <div class="flex items-center justify-end gap-4 md:order-2">
-          <p v-if="productCount > 1" class="text-base-900 text-sm lowercase">
+          <p
+            v-if="productCount > 1"
+            class="text-right text-sm lowercase text-base-900"
+          >
             <strong>{{ productCount }}</strong> {{ $t.i19itemsFound }}
           </p>
-          <a
+          <ALink
             v-if="productCount > products.length"
             :href="getSearchUrl(term)"
-            class="ui-btn ui-btn-primary w-auto text-center"
+            prefetch="visible"
+            class="w-auto whitespace-nowrap text-center ui-btn ui-btn-primary"
           >
             {{ $t.i19seeAll }}
-          </a>
+          </ALink>
         </div>
         <div class="lg:col-span-2">
           <nav>
@@ -62,13 +66,13 @@
               >
                 <a
                   :href="getSearchUrl(term)"
-                  class="ui-link text-base-700 text-sm font-normal"
+                  class="text-sm font-normal text-base-700 ui-link"
                 >
                   {{ term }}
                 </a>
               </li>
               <template #previous>
-                <i class="i-clock m-0" :aria-label="$t.i19searchAgain"></i>
+                <i class="m-0 i-clock" :aria-label="$t.i19searchAgain"></i>
               </template>
             </Carousel>
           </nav>

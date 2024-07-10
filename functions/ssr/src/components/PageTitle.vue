@@ -1,21 +1,26 @@
 <template>
-  <section v-if="title" class="ui-section">
-    <div class="flex items-center gap-4">
-      <AImg
-        v-if="logo"
-        :picture="logo"
-        :alt="logo.alt || title"
-        class="h-auto max-w-[150px] xl:max-w-[200px]"
-      />
-      <h1 class="ui-title">
-        {{ title }}
-      </h1>
-    </div>
-    <div class="prose">
-      <p v-if="description">
-        {{ description }}
-      </p>
-    </div>
+  <section v-if="title" class="bg-secondary-100 py-1">
+    <article class="ui-section">
+      <div class="mx-auto prose">
+        <div class="flex items-center gap-4 not-prose md:justify-center">
+          <AImg
+            v-if="logo"
+            :picture="logo"
+            :alt="logo.alt || title"
+            class="h-auto max-w-[150px] xl:max-w-[200px]"
+          />
+          <h1 class="text-center text-secondary-800 ui-title">
+            {{ title }}
+          </h1>
+        </div>
+        <p
+          v-if="description"
+          :class="description.length < 120 && 'md:text-center'"
+        >
+          {{ description }}
+        </p>
+      </div>
+    </article>
   </section>
 </template>
 
@@ -29,7 +34,7 @@ export interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  apiDoc: () => globalThis.$storefront.apiContext?.doc as Categories,
+  apiDoc: () => (globalThis.$storefront.apiContext?.doc || {}) as Partial<Brands>,
 });
 const title = computed(() => {
   return props.title || props.apiDoc?.name;

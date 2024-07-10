@@ -14,18 +14,23 @@
     "deploy": "cloudcommerce deploy",
     "login": "cloudcommerce login",
     "setup": "bash scripts/install.sh && cloudcommerce setup",
-    "setup:quiet": "cloudcommerce setup --no-deploy --no-commit"
+    "setup:quiet": "cloudcommerce setup --no-deploy --no-commit",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "functions/ssr/**/*.{ts,vue,astro}": "eslint -c ./functions/ssr/.staged.eslintrc.cjs --fix",
+    "functions/!(ssr)/**/*.ts": "eslint --fix"
   },
   "main": "functions/index.js",
-  "author": "E-Com Club Softwares para E-commerce <ti@e-com.club>",
-  "license": "Apache 2.0 with Commons Clause",
   "bugs": {
     "url": "https://github.com/ecomplus/cloud-commerce/issues"
   },
   "dependencies": {
-    "@cloudcommerce/cli": "^0.41.4"
+    "@cloudcommerce/cli": "^2.21.6"
   },
   "devDependencies": {
-    "@cloudcommerce/eslint": "^0.41.4"
+    "@cloudcommerce/eslint": "^2.21.6",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7"
   }
 }

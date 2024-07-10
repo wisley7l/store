@@ -14,11 +14,15 @@
     - Pule com o modo e as regras de produção padrão;
     - Selecione a região `us-east4` ([recomendado](https://github.com/ecomplus/cloud-commerce/issues/164));
 
-3. Vá para _Criação > Authentication_ e clique em _Vamos começar_:
+3. Vá para _Criação > Storage_ e clique _Vamos começar_:
+    - Pule com o modo de produção padrão e a mesma região (pré-selecinada);
+
+4. Vá para _Criação > Authentication_ e clique em _Vamos começar_:
     - Clique em _Provedores nativos > E-mail/senha_ e ative _Link do e-mail (login sem senha)_;
+    - Vá para as configurações do Authentication e adicione o domínio(s) da sua loja na lista de autorizados;
     - Opcionalmente, adicione outros fornecedores por _Smartphone_ (SMS, gera custos adicionais) e/ou redes sociais;
 
-4. Vá para :gear: _> Configurações do projeto_ e edite:
+5. Vá para :gear: _> Configurações do projeto_ e edite:
     - _Local padrão dos recursos do GCP_: mesma região do Firestore (`us-east4`);
     - _Configurações públicas > Nome exibido ao público_: O nome da sua loja;
     - _Configurações públicas > E-mail para suporte_ (opcional);
@@ -27,9 +31,9 @@
         + Copie apenas o valor do objeto `firebaseConfig` e substitua em `functions/ssr/src/scripts/InlineScripts.astro`;
         + Apenas clique em prosseguir nos próximos passos até confirmar e voltar para o console;
 
-5. O plano gratuito do Firebase não é compatível com o envio de solicitações HTTP externas, portanto você precisará fazer upgrade para o plano _Blaze_ (sob demanda) no canto inferior esquerdo do console do Firebase;
+6. O plano gratuito do Firebase não é compatível com o envio de solicitações HTTP externas, portanto você precisará fazer upgrade para o plano _Blaze_ (sob demanda) no canto inferior esquerdo do console do Firebase;
 
-6. [Use esse template](https://github.com/ecomplus/store/generate) para gerar um novo repositório para sua loja;
+7. [Use esse template](https://github.com/ecomplus/store/generate) para gerar um novo repositório para sua loja;
 
 Prossiga com:
 - [Melhor maneira usando a linha de comando](#primeiro-deploy-em-cli)
@@ -37,7 +41,7 @@ Prossiga com:
 
 #### Primeiro deploy em CLI
 
-7. Setup e primeiro deploy pelo terminal com [Firebase CLI](https://firebase.google.com/docs/cli):
+8. Setup e primeiro deploy pelo terminal com [Firebase CLI](https://firebase.google.com/docs/cli):
 ```bash
 # Install `firebase-tools` and login
 npm install -g firebase-tools && firebase login
@@ -57,7 +61,7 @@ npm i
 FIREBASE_PROJECT_ID={project-id} npm run setup
 ```
 
-> **Note**  
+> [!NOTE]
 > Chave de conta criada automaticamente apenas com as permissões necessárias usando gcloud CLI (pule as etapas 6 e 7).
 
 </details>
@@ -71,7 +75,7 @@ FIREBASE_PROJECT_ID={project-id} npm run setup -- --no-gcloud
 npm run deploy
 ```
 
-7. [Crie uma conta de serviço](https://console.cloud.google.com/iam-admin/serviceaccounts) para seu projeto do Firebase diretamente no Google Cloud Platform:
+8. [Crie uma conta de serviço](https://console.cloud.google.com/iam-admin/serviceaccounts) para seu projeto do Firebase diretamente no Google Cloud Platform:
     - Nomeie _Cloud Commerce GH Actions (YOUR REPOSITORY)_;
     - Descreva como _A service account with permission to deploy Cloud Commerce from the GitHub repository to Firebase_;
     - Continue e selecione as seguintes permissões:
@@ -85,11 +89,11 @@ npm run deploy
         8. _Administrador do Cloud Scheduler_
         9. _Usuário da conta de serviço_
 
-8. De volta na lista de contas de serviço, clique nos 3 pontos (ações) and selecione _Gerenciar chaves_, crie e faça o download de uma nova chave JSON para a conta recém criada;
+9. De volta na lista de contas de serviço, clique nos 3 pontos (ações) and selecione _Gerenciar chaves_, crie e faça o download de uma nova chave JSON para a conta recém criada;
 
 </details>
 
-9. Configure os seguintes secrets no seu repositório do GitHub (_Settings > Secrets > Actions_):
+10. Configure os seguintes secrets no seu repositório do GitHub (_Settings > Secrets > Actions_):
     - `FIREBASE_SERVICE_ACCOUNT`: Cole o JSON da chave do Google Cloud gerada
     - `ECOM_AUTHENTICATION_ID`: Pegue no output do setup no CLI
     - `ECOM_API_KEY`: Pegue no output do setup no CLI
@@ -100,30 +104,47 @@ npm run deploy
 
 #### Setup somente do navegador
 
-> **Warning**  
+> [!WARNING]
 > Essa opção de configuração é menos segura, recomendamos o [primeiro deploy em CLI](#primeiro-deploy-em-cli).
 
-7. [Crie uma conta de serviço](https://console.cloud.google.com/iam-admin/serviceaccounts) para seu projeto do Firebase diretamente no Google Cloud Platform:
+8. [Crie uma conta de serviço](https://console.cloud.google.com/iam-admin/serviceaccounts) para seu projeto do Firebase diretamente no Google Cloud Platform:
     - Nomeie _Cloud Commerce GH Actions (YOUR REPOSITORY)_;
     - Descreva como _A service account with ALL permissions to deploy Cloud Commerce from the GitHub to Firebase_;
     - Continue e selecione a permissão _Acesso rápido > Básico > Proprietário_;
 
-8. Back in the service accounts list, click the 3 dots (actions) and select _Manage keys_, generate and download a JSON key for the created account;
+9. Back in the service accounts list, click the 3 dots (actions) and select _Manage keys_, generate and download a JSON key for the created account;
 
-9. Configure os seguintes secrets no seu repositório do GitHub (_Settings > Secrets > Actions_):
+10. Configure os seguintes secrets no seu repositório do GitHub (_Settings > Secrets > Actions_):
     - `FIREBASE_SERVICE_ACCOUNT`: Cole o JSON da chave do Google Cloud gerada
-    - `ECOM_STORE_ID`: Copie seu _Store ID_ no [admin da E-Com Plus](https://ecomplus.app/)
-    - `ECOM_AUTHENTICATION_ID`: Copie seu _Authentication ID_ no [admin da E-Com Plus](https://ecomplus.app/)
-    - `ECOM_API_KEY`: Copie seu _API Key_ no [admin da E-Com Plus](https://ecomplus.app/)
+    - `ECOM_STORE_ID`: Copie seu _Store ID_ no [admin da e-com.plus](https://ecomplus.app/)
+    - `ECOM_AUTHENTICATION_ID`: Copie seu _Authentication ID_ no [admin da e-com.plus](https://ecomplus.app/)
+    - `ECOM_API_KEY`: Copie seu _API Key_ no [admin da e-com.plus](https://ecomplus.app/)
 
 ## Práticas recomendadas de produção
 
-O CDN do Firebase Hosting é rápido, mas [não suporta _Stale-While-Revalidate_](https://firebase.google.com/docs/hosting/manage-cache) ([contexto e feature request](https://firebase.uservoice.com/forums/948424-general/suggestions/47179505-hosting-cdn-cache-stale-while-revalidate)) e Hosting proxy + Cloud Functions (mesmo sem cold starts) nunca leva menos que 1s (TTFB provavelmente vai bater ~2s). Nós gostamos de respostas "instantâneas" mas queremos manter views dinâmicas renderizadas em servidor (por menos client-side JS), então stale caching é necessário e portanto precisamos de outra camada de CDN em produção.
+O CDN do Firebase Hosting é rápido, mas [não suporta _Stale-While-Revalidate_](https://firebase.google.com/docs/hosting/manage-cache) ([contexto e feature request](https://firebase.uservoice.com/forums/948424-general/suggestions/47179505-hosting-cdn-cache-stale-while-revalidate)) e Hosting proxy + Cloud Functions (mesmo sem cold starts) nunca leva menos que 1s (TTFB provavelmente vai bater ~2s). Nós gostamos de respostas "instantâneas" mas queremos manter views dinâmicas renderizadas em servidor (por menos client-side JS), então stale caching é necessário e portanto precisamos de outra camada de CDN em produção (quando o domínio próprio for apontado).
 
-[Cloudflare](https://www.cloudflare.com/) Worker é recomendado na frente do Firebase Hosting + Functions para lojas em produção (quando apontando o domínio próprio) com as configurações abaixo:
+- Forma **recomemdada** usando [bunny.net](https://bunny.net/) CDN com Perma Cache e Edge Rules para ISR:
+    + Obtenha sua chave de API em _account details_ no painel do bunny.net;
+    + Salve em um secret chamado `BUNNYNET_API_KEY` no seu repositório do GitHub;
+    + Edite _.github/build-and-deploy_ (some 1) e confirme com a mensagem **_[run:bunny-setup]_**.
 
-- SSL full;
-- Page rule para \*/\* (qualquer rota) com _Cache Level: Cache Everything_;
-- [_Cache Reserve_](https://www.cloudflare.com/products/cache-reserve/) com Tiered Cache;
-- Entrada A no DNS com **proxy ativo** apontando para o IP do seu projeto no Firebase Hosting;
-- Worker _swr_ com o código (_quick edit_) copiado de [`cloud-commerce/packages/ssr/cloudflare/swr-worker.js`](https://raw.githubusercontent.com/ecomplus/cloud-commerce/main/packages/ssr/cloudflare/swr-worker.js).
+- OU usando [bunny.net](https://bunny.net/) CDN com Stale Cache para SWR:
+    + Pull zone com seu domínio https://_project_.web.app do Firebase Hosting como URL de origem;
+    + SSL + Force SSL habilitados (previne redirecionar http://* para o domínio de origem);
+    + **_Smart Cache_ desabilitado** (cache para tudo respeitando os cabeçalhos da resposta);
+    + Caching _Query String Sort_ habilitado (ótimo para transformações de imagens);
+    + Caching _Strip Response Cookies_ habilitado;
+    + **[Stale Cache](https://bunny.net/blog/introducing-stale-cache-more-efficient-cache-handling/) _while origin offline_ e _while updating_ habilitados**;
+    + Outras configurações de origem e cache podem ser mantidas desabilitadas;
+    + Você pode querer desabilitar algumas zonas na configuração de _routing_ dependendo do target da loja.
+
+- OU usando [Cloudflare](https://www.cloudflare.com/) Worker para ISR/SWR:
+    + SSL full;
+    + Page rule para \*/\* (qualquer rota) com _Cache Level: Cache Everything_;
+    + [_Cache Reserve_](https://www.cloudflare.com/products/cache-reserve/) com Tiered Cache;
+    + Entrada A no DNS com **proxy ativo** apontando para o IP do seu projeto no Firebase Hosting;
+    + Worker _swr_ com o código (_quick edit_) copiado de [`cloud-commerce/packages/ssr/cloudflare/swr-worker.js`](https://raw.githubusercontent.com/ecomplus/cloud-commerce/main/packages/ssr/cloudflare/swr-worker.js).
+
+> [!NOTE]
+> Você pode querer remover ou editar a licença padrão (arquivo LICENSE) antes de publicar o conteúdo da sua loja.

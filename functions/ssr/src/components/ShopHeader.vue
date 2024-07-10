@@ -14,22 +14,24 @@
       <div class="basis-1/4 lg:hidden">
         <button
           class="my-1 px-2"
+          popovertarget="headerSidenav"
           :aria-label="$t.i19toggleMenu"
           @click="isSidenavOpen = !isSidenavOpen"
         >
           <i
-            class="text-3xl transition-colors"
-            :class="[
-              isSidenavOpen ? 'i-close' : 'i-bars-3-bottom-left',
-              isMounted ? 'text-base-500' : 'text-base-400 animate-pulse',
-            ]"
+            class="text-3xl text-base-500"
+            :class="isSidenavOpen ? 'i-close' : 'i-bars-3-bottom-left'"
           ></i>
         </button>
       </div>
       <slot name="logo" />
-      <ShopHeaderMenu class="hidden lg:block" v-bind="{ inlineMenuTrees }" />
-      <div class="text-base-800 flex
-        basis-1/4 items-center justify-end gap-3 px-2 lg:gap-4">
+      <ShopHeaderMenu
+        v-if="!isMobile"
+        v-bind="{ inlineMenuTrees }"
+        class="hidden lg:block"
+      />
+      <div class="flex basis-1/4
+        items-center justify-end gap-3 px-2 text-base-800 lg:gap-4">
         <form action="/s" method="get" class="relative">
           <label for="HeaderSearch" class="sr-only">
             {{ $t.i19searchProducts }}
@@ -47,9 +49,9 @@
                 id="HeaderSearch"
                 name="q"
                 v-model.trim="searchTerm"
-                class="to-primary-50 border-primary/20
-                border-1 w-72 max-w-md bg-gradient-to-r from-white py-3
-                pl-5 pr-12 text-base ring-0 md:w-screen"
+                class="border-1 w-72 max-w-md
+                border-primary/20 bg-gradient-to-r from-white to-primary-50
+                py-3 pl-5 pr-12 text-base ring-0 md:w-screen"
                 :placeholder="`${$t.i19searchProducts} ...`"
               />
             </div>
@@ -60,17 +62,17 @@
             @click="toggleSearch"
           >
             <i
-              class="i-magnifying-glass hover:text-primary h-7 w-7
-              hover:scale-110 active:scale-125"
+              class="size-7 i-magnifying-glass
+              hover:scale-110 hover:text-primary active:scale-125"
               :class="isSearchOpen && 'text-primary-600 -translate-x-2'"
             ></i>
           </button>
         </form>
-        <AccountMenu class="hidden sm:block">
+        <AccountMenu v-if="!isMobile" class="hidden sm:block">
           <template #button="{ open }">
             <i
-              class="i-user-circle hover:text-primary h-7 w-7
-              hover:scale-110 active:scale-125"
+              class="size-7 i-user-circle
+              hover:scale-110 hover:text-primary active:scale-125"
               :class="open ? 'text-black scale-110' : null"
             ></i>
           </template>
@@ -82,11 +84,11 @@
           class="group relative"
           role="button"
         >
-          <i class="i-shopping-bag group-hover:text-primary h-7 w-7
-            group-hover:scale-110 group-active:scale-125"></i>
+          <i class="size-7 i-shopping-bag group-hover:scale-110
+            group-hover:text-primary group-active:scale-125"></i>
           <span
             v-if="cartTotalItems"
-            class="ui-badge-pill-sm absolute -right-1.5 -top-1"
+            class="absolute -right-1.5 -top-1 ui-badge-pill-sm"
           >
             {{ cartTotalItems }}
           </span>
@@ -94,13 +96,18 @@
       </div>
     </div>
     <Drawer
+      v-if="!isScreenLg"
       v-model="isSidenavOpen"
+      model-to="v-show"
       :has-close-button="false"
       position="absolute"
+      id="headerSidenav"
+      :popover="isMounted ? null : 'auto'"
       :class="isSticky ? 'mt-2 md:mt-3' : 'mt-3 sm:mt-4 md:mt-5'"
       :style="{
-        height: `calc(100vh - ${positionY}px + .5rem)`,
-        maxHeight: `calc(100dvh - ${positionY}px + .5rem)`,
+        top: isMounted ? null : sidenavPosTop,
+        height: `calc(100vh - ${sidenavPosTop})`,
+        maxHeight: `calc(100dvh - ${sidenavPosTop})`,
       }"
     >
       <ShopSidenav class="pt-6" v-bind="{ categoryTrees }" />
@@ -151,6 +158,7 @@ import {
   type Props as UseShopHeaderProps,
   useShopHeader,
 } from '@@sf/composables/use-shop-header';
+import { isMobile, isScreenLg } from '@@sf/sf-lib';
 import Drawer from '@@sf/components/Drawer.vue';
 import ShopSidenav from '~/components/ShopSidenav.vue';
 import ShopHeaderMenu from '~/components/ShopHeaderMenu.vue';
@@ -179,6 +187,7 @@ const {
   handleOnMounted,
 } = useShopHeader({ ...props, header, searchInput });
 const isSidenavOpen = ref(false);
+const sidenavPosTop = computed(() => `calc(${(positionY.value || 94)}px - .75rem)`);
 const isMounted = ref(false);
 onMounted(() => {
   isMounted.value = true;

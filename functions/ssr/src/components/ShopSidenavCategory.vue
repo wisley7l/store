@@ -1,27 +1,33 @@
 <template>
-  <li class="text-base-800 text-lg">
+  <li class="text-lg text-base-800">
     <details
       v-if="categoryTree.subcategories.length"
       class="z-10 overflow-y-auto overflow-x-hidden bg-white
-      open:absolute open:left-0 open:top-0 open:h-full open:w-full"
-      @toggle="isOpen = !isOpen"
+      open:absolute open:left-0 open:top-0 open:size-full"
+      :open="isOpen"
     >
       <summary
-        class="active:bg-base-100 cursor-pointer list-none px-6 py-3 transition-colors"
-        :class="isOpen ? 'bg-base-100' : null"
+        class="list-none transition-colors active:bg-base-100"
+        :class="isOpen && 'bg-base-100'"
       >
-        <i :class="!isOpen
-          ? 'i-arrow-right float-right mb-0 mt-1 text-xl text-base-500'
-          : 'i-arrow-right rotate-180 text-lg'"></i>
-        <AImg
-          v-if="!isOpen && categoryTree.icon"
-          :picture="categoryTree.icon"
-          :alt="categoryTree.name"
-          class="mr-3 inline h-5 w-auto"
-        />
-        <h3 class="inline" :class="isOpen ? 'ml-4 text-base' : null">
-          {{ categoryTree.name }}
-        </h3>
+        <a
+          :href="`/${categoryTree.slug}`"
+          class="block px-6 py-3"
+          @click.prevent="isOpen = !isOpen"
+        >
+          <i :class="!isOpen
+            ? 'i-arrow-right float-right mb-0 mt-1 text-xl text-base-500'
+            : 'i-arrow-right rotate-180 text-lg'"></i>
+          <AImg
+            v-if="!isOpen && categoryTree.icon"
+            :picture="categoryTree.icon"
+            :alt="categoryTree.name"
+            class="mr-3 inline h-5 w-auto"
+          />
+          <h3 class="inline" :class="isOpen && 'ml-4 text-base'">
+            {{ categoryTree.name }}
+          </h3>
+        </a>
       </summary>
       <ul
         class="mt-2 transition-opacity"
@@ -34,19 +40,21 @@
           :category-tree="subcategoryTree"
         />
         <li>
-          <a
+          <ALink
             :href="`/${categoryTree.slug}`"
-            class="active:bg-base-200 block px-6 py-3 text-base underline"
+            prefetch="visible"
+            class="block px-6 py-3 text-base underline active:bg-base-200"
           >
             {{ $t.i19seeAll$1Category.replace('$1', categoryTree.name) }}
-          </a>
+          </ALink>
         </li>
       </ul>
     </details>
-    <a
+    <ALink
       v-else
       :href="`/${categoryTree.slug}`"
-      class="active:bg-base-200 block px-6 py-3"
+      prefetch="visible"
+      class="block px-6 py-3 active:bg-base-200"
     >
       <AImg
         v-if="!isOpen && categoryTree.icon"
@@ -55,7 +63,7 @@
         class="mr-3 inline h-5 w-auto"
       />
       <h3 class="inline">{{ categoryTree.name }}</h3>
-    </a>
+    </ALink>
   </li>
 </template>
 

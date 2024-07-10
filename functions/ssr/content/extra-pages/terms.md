@@ -1,6 +1,5 @@
 ---
 title: "Privacidade e termos de serviço"
-date: ""
 meta_title: ""
 meta_description: ""
 hero:

@@ -20,56 +20,60 @@ const { sections } = await usePageSections({
     return { props: content };
   },
 });
-const { isHomepage } = routeContext;
+const { cmsContent, apiContext } = routeContext;
 /* `apiContext` is surelly set here (from Main.astro)
 cause route resource is required to define sections from content. */
 ---
 
-<article class="mt-6 mb-9 md:mt-8 md:mb-12">
-  {sections.map(async ({ type, props }) => {
+<article class="mb-9 mt-6 md:mb-12 md:mt-8">
+  {sections.map(async ({ type, props }, index) => {
+    if (cmsContent?.$filename) {
+      props.cmsPreview = {
+        contentFilename: cmsContent.$filename,
+        sectionIndex: index,
+      };
+    }
     switch (type) {
-      case 'product-shelf':
-        return isHomepage
-          ? <ProductShelf {...props} client:idle />
-          : <ProductShelf {...props} client:visible />
-      case 'related-products':
-        props.isRelatedProducts = true;
-        return <ProductShelf {...props} client:visible />
       case 'banners-grid':
-        return <BannersGrid {...props} />
+        return <BannersGrid {...props} />;
       case 'breadcrumbs':
-        return <Breadcrumbs />
-      case 'doc-description':
-        return <DocDescription />
+        return <Breadcrumbs />;
+      case 'content-entry':
+        return <ContentEntry {...props} />;
+      case 'custom-html':
+        return <ContentClearfix html={props.html} />;
       case 'doc-banners':
-        return <DocBanners />
-      case 'product-details':
-        const { hasDescription, hasSpecifications, ...detailsProps } = props;
-        return <>
-          <ProductDetails {...detailsProps} client:context>
-            <Fragment slot="description">
-              {hasDescription && <DocDescription />}
-              {hasSpecifications && <ProductSpecifications />}
-            </Fragment>
-          </ProductDetails>
-        </>
-      case 'search-showcase':
+        return <DocBanners />;
+      case 'doc-description':
+        return <DocDescription />;
+      case 'page-title':
+        return <PageTitle {...props} />;
+      case 'product-shelf':
+      case 'related-products':
+        props.isRelatedProducts = type === 'related-products';
+        return <ProductShelf {...props} client:sf="lazy,interaction" />;
       case 'context-showcase':
+      case 'search-showcase':
         return <>
           <article class="min-h-[500px]">
-            <SearchShowcase {...props} client:context />
+            <SearchShowcase {...props} client:sf="load" />
           </article>
-        </>
-      case 'page-title':
-        return <PageTitle {...props} />
-      case 'content-entry':
-        return <ContentEntry {...props} />
-      case 'custom-html':
-        return <ContentClearfix html={props.html} />
+        </>;
+      case 'product-details':
+        const { hasDescription, hasSpecifications, ...detailsProps } = props;
+        const product = apiContext.resource === 'products' && apiContext.doc;
+        return product && <>
+          <ProductDetails {...detailsProps} {product} client:sf="load">
+            <Fragment slot="description">
+              {hasDescription && <DocDescription apiDoc={product} />}
+              {hasSpecifications && <ProductSpecifications {product} />}
+            </Fragment>
+          </ProductDetails>
+        </>;
       case 'c:foo':
-        return <div data-foo={props.foo}></div>
+        return <div data-foo={props.foo}></div>;
       default:
-        return <div data-section={type}></div>
+        return <div data-section={type}></div>;
     }
   })}
 </article>

@@ -7,12 +7,24 @@
       {
         "startsAt": "",
         "endsAt": "",
-        "img": "/img/uploads/lapis.png",
+        "img": "/img/uploads/rect89.webp",
+        "alt": "Headset banner",
+        "mobileImg": "/img/uploads/headphone.webp",
+        "href": "/headset",
+        "title": "20% off on first purchase",
+        "subtitle": "At demoStore you can shop the best tech of 2023. Enjoy and get 10% off on your first purchase!",
+        "buttonLink": "/",
+        "buttonText": "See"
+      },
+      {
+        "startsAt": "",
+        "endsAt": "",
+        "img": "/img/uploads/rect859.png",
         "alt": "",
         "mobileImg": "",
-        "href": "/img/uploads/lapis.png",
-        "title": "Not Easy",
-        "subtitle": "Is HARD",
+        "href": "",
+        "title": "",
+        "subtitle": "",
         "buttonLink": "",
         "buttonText": ""
       }
